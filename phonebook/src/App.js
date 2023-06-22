@@ -1,30 +1,42 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import personService from './services/persons'
 import PersonForm from './components/PersonForm'
 import Content from './components/Content'
 import Filter from './components/Filter'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '407-555-5555', id: 1 },
-    { name: "test friend", number: '155-555-4444', id: 2}
-  ]) 
+  const [persons, setPersons] = useState([])
   const [filteredPersons, setFilteredPersons] = useState([])
   const [newFilter, setNewFilter] = useState('')
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
+  }, [])
 
   const addPerson = (event) => {
     event.preventDefault();
     const personObject = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     }
     if (persons.some(el => el.name === personObject.name))  
     {setNewName(''); setNewNumber(''); return alert(`${personObject.name} is already in phonebook`)}
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
+    personService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
+    // setPersons(persons.concat(personObject))
+    // setNewName('')
+    // setNewNumber('')
   }
 
   const handleNameChange = (event) => {
