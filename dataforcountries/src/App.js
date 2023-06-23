@@ -18,11 +18,14 @@ const App = () => {
       })
   }, [])
 
+
   const handleFilterChange = (event) => {
     setNewFilter(event.target.value)
+    if(newFilter) {
     const regex = new RegExp(newFilter, 'i')
     const filtered = () => countries.filter(country => country.name.common.match(regex))
     setMatches(filtered)
+    }
   }
 
   return (

@@ -1,7 +1,7 @@
 import Country from './Country'
-import Button from './Button'
 
-const Content = ({matches}) => {
+const Content = ({matches, onClick}) => {
+
   if (matches.length > 10){
   return (
     <div>
@@ -12,7 +12,11 @@ const Content = ({matches}) => {
   else if (matches.length <= 10 && matches.length > 1){
   return (
     <div>
-      
+      <ul>
+      {matches.map((names) => 
+        <li key={names.name.common}>{names.name.common}</li> 
+        )}
+      </ul>
     </div>
   )
   }
