@@ -1,9 +1,11 @@
-const Content = ({filteredPersons, persons, newFilter}) => {
+import Person from './Person'
+
+const Content = ({filteredPersons, persons, newFilter, deletePerson}) => {
   if (newFilter.length === 0) {
     return (
       <ul>
-        {persons.map(person => 
-          <li key={person.name}>{person.name} - {person.number}</li>
+        {persons.map((person, i) => 
+          <Person key={i} person={person} deletePerson={deletePerson} />
           )}
       </ul>
     )
@@ -11,8 +13,8 @@ const Content = ({filteredPersons, persons, newFilter}) => {
   else {
     return (
       <ul>
-      {filteredPersons.map((person) =>
-          <li key={person.name}>{person.name} - {person.number}</li>
+      {filteredPersons.map((person, i) =>
+          <Person key={i} person={person} deletePerson={deletePerson} />
         )}
       </ul>
     )
